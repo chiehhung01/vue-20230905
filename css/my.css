@@ -1,0 +1,164 @@
+:root{
+    /*93.多汁飽滿的水果(Juicy Fruits)*/
+    --mycolor01:#EE3239;
+    --mycolor02:#5EAA5F;
+    --mycolor03:#FECE00;
+    --mycolor04:#9D6AB9; 
+    
+    
+    /*83.壽司拼盤(Sushi Platter)*/
+    --mycolor05:#f69864;
+    --mycolor06:#e95761;
+    --mycolor07:#290f02;
+    --mycolor08:#1e4620;
+
+    /*74.惹人注目的金剛鸚鵡(Striking Macaw)*/
+    --mycolor09:#ffdd00;
+    --mycolor10:#f15a22;
+    --mycolor11:#5fad46;
+    --mycolor12:#478fcd;
+
+    /*61.生動的疊加色彩( Vivid Overlays)*/
+    --mycolor13:#a9dfed;
+    --mycolor14:#ebd6eb;
+    --mycolor15:#84c0e9;
+    --mycolor16:#37419a;
+
+      /*29.冷酷變色龍(Cool Chameleon)*/
+      --mycolor17:#d9cfe7;
+      --mycolor18:#a8bcba;
+      --mycolor19:#acc66d;
+      --mycolor20:#50697d;
+
+      /*02.甜膩瑪瑙(Mellow Agate)*/
+      --mycolor21:#ffd954;
+      --mycolor22:#e4b660;
+      --mycolor23:#f2ab39;
+      --mycolor24:#69491a;
+
+      /*03.薄霧綠(Misty Greens)*/
+      --mycolor25:#d1ede1;
+      --mycolor26:#7bc5ae;
+      --mycolor27:#028c6a;
+      --mycolor28:#003e19;
+
+      /*04.憂鬱植物藍(Subdued Succulent)*/
+      --mycolor29:#d1dddb;
+      --mycolor30:#85b8cb;
+      --mycolor31:#1d6a96;
+      --mycolor32:#283b42;
+      /*05.西部風格(Western Wear)*/
+      --mycolor33:#d5d2c1;
+      --mycolor34:#bd8e62;
+      --mycolor35:#a46843;
+      --mycolor36:#370d00;
+
+      /*07.瑰麗紅(Rosy Reds)*/
+      --mycolor37:#ffc2c3;
+      --mycolor38:#fe7773;
+      --mycolor39:#e81e25;
+      --mycolor40:#0e0301;
+}
+
+.box{
+    width: 100px;
+    height: 100px;
+    border: 2px solid #fa0;
+}
+
+.box01{
+    width: 180px;
+    height: 180px;
+    border: 2px solid #e10;
+    padding: 15px;
+    margin: 15px;
+    box-sizing:border-box;            }
+
+.box02{
+    
+    height: 120px;
+    border: 2px solid red;
+    background-color:#4241a3;
+    margin-top: 15px;
+    
+}
+
+.box03{
+    
+    height: 120px;
+    border: 2px solid rgb(158, 207, 65);
+    background-color:#521739;
+    
+}
+
+.box04{
+    
+    height: 120px;
+    border: 2px solid rgb(100, 85, 233);
+    background-color:#b3c549;
+    
+
+}
+
+.box05{
+    
+    height: 120px;
+    border: 2px solid rgb(214, 63, 151);
+    background-color:#29b1c9;
+    
+}
+
+.demo {
+    border: 5px solid var(--mycolor04);
+    margin: 15px;
+    padding: 15px;
+    ;
+
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .fw-100 {
+            font-weight: 100;
+        }
+
+        .fw-300 {
+            font-weight: 300;
+        }
+
+        .fw-400 {
+            font-weight: 400;
+        }
+
+        .fw-500 {
+            font-weight: 500;
+        }
+
+        .fw-700 {
+            font-weight: 700;
+        }
+
+        .fw-900 {
+            font-weight: 900;
+        }
+
+        .box1{
+            width: 180px;
+            height: 180px;
+            padding: 15px;
+            margin: 15px;
+            border: 2px solid var(--mycolor02);
+        }
+
+        .bg-cover{
+            background-position: center center;
+            background-size: cover;
+        }
+
+        
+
+        
