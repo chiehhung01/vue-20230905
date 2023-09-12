@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代辦事項 -ToDos</title>
+    <link rel="stylesheet" href="css/my.css">
+    </link>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: var(--mycolor01);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2> {{ text01 }}</h2>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 mt-5">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">代辦事項</span>
+                        <input type="text" class="form-control" v-model="newTodo">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                            @click="addTodo()">新增</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" v-on:click="visibility = 'all'"
+                                        v-bind:class="{'active' : visibility == 'all'}"> 全部</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" v-on:click="visibility = 'active'"
+                                        v-bind:class="{'active' : visibility == 'active'}">進行中</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" @click="visibility = 'completed'"
+                                        v-bind:class="{'active' : visibility == 'completed'}">已完成</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(item, key) in filterTodo">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-check ">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault" v-model="item.completed">
+                                            <label class="form-check-label" :class="{'completed' : item.completed}"
+                                                for="flexCheckDefault">
+                                                {{item.title}}
+                                            </label>
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close" @click="removeTodo(item)"></button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer d-flex">
+                            <span class="me-auto">還有XX筆任務未完成</span>
+                            <a href="#">清除所有任務</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            data() {
+                return {
+                    newTodo: '吃早餐',
+                    visibility: "全部",
+                    todos: [
+                        {
+                            id: '001',
+                            title: '線上學習',
+                            completed: false
+                        }
+                    ]
+                }
+            },
+            methods: {
+                addTodo() {
+                    console.log(Date.now());
+                    const timestamp = Date.now();
+                    const mytiltle = this.newTodo.trim();
+                    if (!mytiltle) {
+                        return;
+                    }
+
+                    // const mytiltle = this.newTodo.trim();: 這行程式碼將 newTodo 變數的值去除前後的空白字符（比如空格、換行符等），然後將結果存儲在 mytiltle 變數中。
+
+                    // if (!mytiltle) { return; }: 接下來，程式碼使用條件語句 if 來檢查 mytiltle 變數的值是否為空。!mytiltle 表示如果 mytiltle 是空的（或者只包含空白字符），那麼這個條件就會成立。如果條件成立，則執行 return 语句，這會立即退出這個函數或區塊，不再執行後續的程式碼。
+
+                    this.todos.push({
+                        id: timestamp,
+                        title: mytiltle,
+                        completed: false
+                    });
+                    this.newTodo = '';
+                },
+                removeTodo(todo) {
+                    const vm = this;
+                    const newIndex = vm.todos.findIndex((item, index) => {
+                        return todo.id == item.id
+                    });
+                    vm.todos.splice(newIndex, 1);
+                }
+                //const newIndex = vm.todos.findIndex((item, index) => { ... });：此行使用 findIndex 方法來查找符合指定條件的元素在 todos 數組中的索引。 findIndex 方法接受一個回調函數，該函數對數組中的每個元素進行遍歷，當找到符合條件的元素時，它返回該元素的索引，否則返回 -1。在這裡，回調函數比較了 todo.id 和 item.id，找到了匹配的元素則返回其索引。
+
+                // vm.todos.splice(newIndex, 1);：一旦找到匹配的元素的索引，就使用 splice 方法從 todos 數組中刪除該元素。 splice 方法需要兩個參數，第一個參數是要刪除的元素的索引，這裡使用 newIndex，第二個參數是要刪除的元素數量，這裡設置為 1，表示只刪除一個元素。
+                //vue不要用this，留給vm用，比較不會有錯
+            },
+            computed: {
+                filterTodo() {
+                    const vm = this;
+                    if (vm.visibility == 'all') {
+                        return vm.todos;
+                    } else if (vm.visibility == 'active') {
+                        const activeTodo = [];
+                        vm.todos.forEach((item, key) => {
+                            if (!item.completed) {
+                                activeTodo.push(item);
+                            }
+                        });
+                        return activeTodo;
+                    }else if (vm.visibility == 'completed') {
+                        const completedTodo = [];
+                        vm.todos.forEach((item, key) => {
+                            if (item.completed) {
+                                completedTodo.push(item);
+                            }
+                        });
+                        return completedTodo;
+                    }
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app');
+
+
+    </script>
+</body>
+
+</html>
