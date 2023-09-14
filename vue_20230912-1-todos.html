@@ -49,24 +49,25 @@
                         <div class="card-body">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(item, key) in filterTodo">
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between" v-if="item.id != cacheItem.id">
                                         <div class="form-check ">
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="flexCheckDefault" v-model="item.completed">
                                             <label class="form-check-label" :class="{'completed' : item.completed}"
-                                                for="flexCheckDefault">
+                                                for="flexCheckDefault" @dblclick="editTodo(item)">
                                                 {{item.title}}
                                             </label>
                                         </div>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close btn-close-dark" 
                                             aria-label="Close" @click="removeTodo(item)"></button>
                                     </div>
+                                    <input type="text" class="form-control" v-model="cacheTitle" v-if="item.id == cacheItem.id" @keyup.enter="doneTodo(item)" @keyup.esc="cancelTodo()">
                                 </li>
                             </ul>
                         </div>
                         <div class="card-footer d-flex">
-                            <span class="me-auto">還有XX筆任務未完成</span>
-                            <a href="#">清除所有任務</a>
+                            <span class="me-auto">還有{{ countActive }}筆任務未完成</span>
+                            <a href="#" @click="destory()">清除所有任務</a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +82,9 @@
             data() {
                 return {
                     newTodo: '吃早餐',
-                    visibility: "全部",
+                    visibility: "all",
+                    cacheTitle:'',
+                    cacheItem: [],
                     todos: [
                         {
                             id: '001',
@@ -117,11 +120,27 @@
                         return todo.id == item.id
                     });
                     vm.todos.splice(newIndex, 1);
-                }
+                },
                 //const newIndex = vm.todos.findIndex((item, index) => { ... });：此行使用 findIndex 方法來查找符合指定條件的元素在 todos 數組中的索引。 findIndex 方法接受一個回調函數，該函數對數組中的每個元素進行遍歷，當找到符合條件的元素時，它返回該元素的索引，否則返回 -1。在這裡，回調函數比較了 todo.id 和 item.id，找到了匹配的元素則返回其索引。
 
                 // vm.todos.splice(newIndex, 1);：一旦找到匹配的元素的索引，就使用 splice 方法從 todos 數組中刪除該元素。 splice 方法需要兩個參數，第一個參數是要刪除的元素的索引，這裡使用 newIndex，第二個參數是要刪除的元素數量，這裡設置為 1，表示只刪除一個元素。
                 //vue不要用this，留給vm用，比較不會有錯
+                editTodo(item){
+                    this.cacheItem = item;
+                    this.cacheTitle = item.title;
+                },
+                doneTodo(item){
+                    item.title = this.cacheTitle;
+                    this.cacheTitle = '';
+                    this.cacheItem = '';
+                },
+                cancelTodo() {
+                    this.cacheTitle = '';
+                    this.cacheItem = '';
+                },
+                destory(){
+                    this.todos = [];
+                }
             },
             computed: {
                 filterTodo() {
@@ -145,7 +164,16 @@
                         });
                         return completedTodo;
                     }
-                }
+                },
+                countActive(){
+                    let active = 0;
+                    this.todos.forEach((item, key) => {
+                        if(!item.completed){
+                            active++;
+                        }
+                    });
+                    return active;
+                },
             }
         }
         Vue.createApp(App).mount('#app');
